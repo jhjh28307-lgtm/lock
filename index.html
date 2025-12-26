@@ -4,168 +4,251 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>你愿意嫁给我吗？</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(-45deg, #ffafbd, #ffc3a0, #a1c4fd, #c2e9fb);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow-x: hidden;
-            color: #333;
-            padding: 20px;
-        }
-        
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        .container {
-            max-width: 1000px;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.93);
-            border-radius: 30px;
-            padding: 40px;
-            box-shadow: 0 25px 75px rgba(0, 0, 0, 0.25);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-        }
-        
-        .container:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, #ff6b9d, #ffd166, #06d6a0, #118ab2);
-        }
-        
-        .hearts-container {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 0;
-        }
-        
-        .heart {
-            position: absolute;
-            color: rgba(255, 107, 157, 0.5);
-            font-size: 24px;
-            animation: floatHeart 8s linear infinite;
-        }
-        
-        @keyframes floatHeart {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        love: {
+                            50: '#fef2f2',
+                            100: '#fee2e2',
+                            200: '#fecaca',
+                            300: '#fca5a5',
+                            400: '#f87171',
+                            500: '#ef4444',
+                            600: '#dc2626',
+                            700: '#b91c1c',
+                            800: '#991b1b',
+                            900: '#7f1d1d',
+                            950: '#450a0a',
+                        }
+                    },
+ fontFamily: {
+                        'love': ['Segoe UI', 'Roboto', 'sans-serif'],
+                    },
+                }
             }
-            10% {
-                opacity: 1;
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
             }
-            90% {
-                opacity: 1;
+            .text-shadow {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
             }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-                opacity: 0;
+            .text-shadow-lg {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
+            }
+            .animate-beat {
+                animation: beat 1.5s infinite;
+            }
+            .animate-float {
+                animation: float 6s ease-in-out infinite;
+            }
+            .animate-fade-in {
+                animation: fadeIn 2s forwards;
+            }
+            .animate-pulse-slow {
+                animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
             }
         }
         
-        .header {
-            margin-bottom: 30px;
-            position: relative;
-            z-index: 1;
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            40% { transform: scale(0.9); }
+            60% { transform: scale(1.1); }
+            75% { transform: scale(0.95); }
         }
         
-        h1 {
-            font-size: 3.8rem;
-            background: linear-gradient(90deg, #ff6b9d, #ff9a76, #ffd166, #06d6a0, #118ab2);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 15px;
-            line-height: 1.2;
-            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            animation: pulse 2s infinite;
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
         }
         
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-love-950 via-love-900 to-love-800 min-h-screen flex items-center justify-center overflow-hidden font-love">
+    <!-- 背景粒子 -->
+    <div id="particles-js" class="absolute inset-0 z-0"></div>
+
+    <div class="relative z-10 text-center px-4 max-w-4xl">
+        <!-- 心形图标 -->
+        <div id="heart-container" class="mb-8 flex justify-center">
+            <i class="fa fa-heart text-love-500 text-6xl md:text-8xl animate-beat opacity-100 transition-opacity duration-1000"></i>
+        </div>
         
-        .subtitle {
-            font-size: 1.5rem;
-            color: #666;
-            margin-bottom: 10px;
-            font-weight: 300;
-        }
+        <!-- 求婚文字 -->
+        <div id="proposal-text" class="opacity-0 transition-opacity duration-2000">
+            <h1 class="text-[clamp(2rem,5vw,4rem)] font-bold text-white text-shadow-lg mb-4">你愿意嫁给我吗？</h1>
+            <p id="name" class="text-[clamp(1.5rem,4vw,3rem)] font-semibold text-love-300 animate-pulse-slow">XXX</p>
+        </div>
         
-        .name-input-container {
-            margin: 30px 0;
-            position: relative;
-            z-index: 1;
+        <!-- 装饰元素 -->
+        <div class="mt-8 flex justify-center space-x-4">
+            <i class="fa fa-diamond text-love-300 text-2xl animate-float" style="animation-delay: 0s;"></i>
+            <i class="fa fa-diamond text-love-400 text-2xl animate-float" style="animation-delay: 1s;"></i>
+            <i class="fa fa-diamond text-love-500 text-2xl animate-float" style="animation-delay: 2s;"></i>
+            <i class="fa fa-diamond text-love-400 text-2xl animate-float" style="animation-delay: 3s;"></i>
+            <i class="fa fa-diamond text-love-300 text-2xl animate-float" style="animation-delay: 4s;"></i>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // 配置粒子效果
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 100,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ef4444"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": true
+                },
+                "size": {
+                    "value": 3,
+                    "random": true
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ef4444",
+                    "opacity": 0.2,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 2,
+                    "direction": "none",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false
+                }
+            },
+"interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 0.5
+                        }
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+
+        // 动画序列
+        document.addEventListener('DOMContentLoaded', function() {
+            const heart = document.querySelector('.fa-heart');
+            const proposalText = document.getElementById('proposal-text');
+            const heartContainer = document.getElementById('heart-container');
+            
+            // 心形跳动一段时间后爆炸
+            setTimeout(() => {
+                // 心形淡出
+                heart.style.opacity = '0';
+                heart.style.transform = 'scale(2)';
+                
+                // 创建爆炸粒子
+                createExplosionParticles();
+                
+                // 求婚文字淡入
+                setTimeout(() => {
+                    proposalText.style.opacity = '1';
+                }, 1000);
+                
+            }, 3000); // 3秒后开始动画
+        });
+
+        // 创建爆炸粒子效果
+        function createExplosionParticles() {
+            const heartContainer = document.getElementById('heart-container');
+            const colors = ['#ef4444', '#f87171', '#fca5a5', '#fecaca'];
+            
+            // 创建100个粒子
+            for (let i = 0; i < 100; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('absolute', 'w-2', 'h-2', 'rounded-full');
+                
+                // 随机颜色
+                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                // 随机位置（以心形为中心）
+                const size = Math.random() * 10 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // 随机方向和速度
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 3 + 1;
+                const x = Math.cos(angle) * speed;
+                const y = Math.sin(angle) * speed;
+                
+                // 设置初始位置
+                particle.style.left = '50%';
+                particle.style.top = '50%';
+                particle.style.transform = 'translate(-50%, -50%)';
+                
+                // 添加到容器
+                heartContainer.appendChild(particle);
+                
+                // 动画
+                setTimeout(() => {
+                    particle.style.transition = 'all 1.5s ease-out';
+                    particle.style.left = `${50 + x * 30}%`;
+                    particle.style.top = `${50 + y * 30}%`;
+                    particle.style.opacity = '0';
+                    
+                    // 动画结束后移除粒子
+                    setTimeout(() => {
+                        particle.remove();
+                    }, 1500);
+                }, 10);
+            }
         }
-        
-        .name-input {
-            padding: 18px 25px;
-            font-size: 1.8rem;
-            width: 100%;
-            max-width: 500px;
-            border: 3px solid #ffd166;
-            border-radius: 50px;
-            text-align: center;
-            outline: none;
-            transition: all 0.3s;
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 10px 25px rgba(255, 209, 102, 0.2);
-        }
-        
-        .name-input:focus {
-            border-color: #ff6b9d;
-            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
-            transform: translateY(-5px);
-        }
-        
-        .name-input::placeholder {
-            color: #aaa;
-        }
-        
-        .proposal-text {
-            font-size: 2.8rem;
-            color: #ff6b9d;
-            margin: 40px 0;
-            padding: 25px;
-            background: linear-gradient(135deg, rgba(255, 235, 235, 0.8), rgba(255, 255, 255, 0.9));
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(255, 107, 157, 0.15);
-            position: relative;
-            z-index: 1;
-            font-weight: 700;
-        }
-        
-        .proposal-text span {
-            background: linear-gradient(90deg, #ff6b9d, #ff9a76);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
+    </script>
+</body>
+</html>           
