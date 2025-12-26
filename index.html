@@ -27,14 +27,14 @@
                             950: '#450a0a',
                         }
                     },
- fontFamily: {
+                    fontFamily: {
                         'love': ['Segoe UI', 'Roboto', 'sans-serif'],
                     },
                 }
             }
         }
     </script>
-    
+
     <style type="text/tailwindcss">
         @layer utilities {
             .content-auto {
@@ -92,7 +92,17 @@
         <!-- 求婚文字 -->
         <div id="proposal-text" class="opacity-0 transition-opacity duration-2000">
             <h1 class="text-[clamp(2rem,5vw,4rem)] font-bold text-white text-shadow-lg mb-4">你愿意嫁给我吗？</h1>
-            <p id="name" class="text-[clamp(1.5rem,4vw,3rem)] font-semibold text-love-300 animate-pulse-slow">XXX</p>
+            <p id="name" class="text-[clamp(1.5rem,4vw,3rem)] font-semibold text-love-300 animate-pulse-slow">林泽洋</p>
+            
+            <!-- 新增的按钮组 -->
+            <div id="button-group" class="mt-10 flex justify-center space-x-6 opacity-0 transition-opacity duration-1000 delay-1000">
+                <button id="yes-button" class="bg-love-500 hover:bg-love-600 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+                    <i class="fa fa-heart mr-2"></i>愿意
+                </button>
+                <button id="no-button" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transform transition-all duration-300">
+                    <i class="fa fa-times mr-2"></i>不愿意
+                </button>
+            </div>
         </div>
         
         <!-- 装饰元素 -->
@@ -105,7 +115,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
         // 配置粒子效果
         particlesJS("particles-js", {
@@ -141,7 +151,7 @@
                     "color": "#ef4444",
                     "opacity": 0.2,
                     "width": 1
-                },
+},
                 "move": {
                     "enable": true,
                     "speed": 2,
@@ -152,7 +162,7 @@
                     "bounce": false
                 }
             },
-"interactivity": {
+            "interactivity": {
                 "detect_on": "canvas",
                 "events": {
                     "onhover": {
@@ -185,6 +195,9 @@
             const heart = document.querySelector('.fa-heart');
             const proposalText = document.getElementById('proposal-text');
             const heartContainer = document.getElementById('heart-container');
+            const buttonGroup = document.getElementById('button-group');
+            const yesButton = document.getElementById('yes-button');
+            const noButton = document.getElementById('no-button');
             
             // 心形跳动一段时间后爆炸
             setTimeout(() => {
@@ -198,12 +211,42 @@
                 // 求婚文字淡入
                 setTimeout(() => {
                     proposalText.style.opacity = '1';
+                    // 按钮组延迟淡入
+                    setTimeout(() => {
+                        buttonGroup.style.opacity = '1';
+                    }, 1000);
                 }, 1000);
                 
             }, 3000); // 3秒后开始动画
+            
+            // "不愿意"按钮的交互效果
+            noButton.addEventListener('mouseover', function() {
+                // 获取视口尺寸
+                const viewportWidth = window.innerWidth;
+                const viewportHeight = window.innerHeight;
+                
+                // 获取按钮尺寸
+                const buttonWidth = noButton.offsetWidth;
+                const buttonHeight = noButton.offsetHeight;
+                
+                // 计算随机位置（确保按钮不会完全超出视口）
+                const randomX = Math.random() * (viewportWidth - buttonWidth);
+                const randomY = Math.random() * (viewportHeight - buttonHeight);
+                
+                // 设置按钮新位置
+                noButton.style.position = 'absolute';
+                noButton.style.left = `${randomX}px`;
+                noButton.style.top = `${randomY}px`;
+            });
+            
+            // "愿意"按钮的点击效果
+            yesButton.addEventListener('click', function() {
+                alert('太好了！我会用一生来爱你，照顾你！');
+                // 这里可以添加更多庆祝动画或跳转到新页面
+            });
         });
 
-        // 创建爆炸粒子效果
+ // 创建爆炸粒子效果
         function createExplosionParticles() {
             const heartContainer = document.getElementById('heart-container');
             const colors = ['#ef4444', '#f87171', '#fca5a5', '#fecaca'];
@@ -251,4 +294,5 @@
         }
     </script>
 </body>
-</html>           
+</html>
+       
