@@ -3,296 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>你愿意嫁给我吗？</title>
+    <title>送你一个礼物</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    
-    <!-- Tailwind 配置 -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        love: {
-                            50: '#fef2f2',
-                            100: '#fee2e2',
-                            200: '#fecaca',
-                            300: '#fca5a5',
-                            400: '#f87171',
-                            500: '#ef4444',
-                            600: '#dc2626',
-                            700: '#b91c1c',
-                            800: '#991b1b',
-                            900: '#7f1d1d',
-                            950: '#450a0a',
-                        }
-                    },
-                    fontFamily: {
-                        'love': ['Segoe UI', 'Roboto', 'sans-serif'],
-                    },
-                }
-            }
+    <style>
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
         }
-    </script>
-
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .content-auto {
-                content-visibility: auto;
-            }
-            .text-shadow {
-                text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
-            }
-            .text-shadow-lg {
-                text-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
-            }
-            .animate-beat {
-                animation: beat 1.5s infinite;
-            }
-            .animate-float {
-                animation: float 6s ease-in-out infinite;
-            }
-            .animate-fade-in {
-                animation: fadeIn 2s forwards;
-            }
-            .animate-pulse-slow {
-                animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-            }
+        @keyframes pop {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
         }
-        
-        @keyframes beat {
-            0%, 100% { transform: scale(1); }
-            25% { transform: scale(1.1); }
-            40% { transform: scale(0.9); }
-            60% { transform: scale(1.1); }
-            75% { transform: scale(0.95); }
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes shake {
+            0%, 100% { transform: rotate(0); }
+            25% { transform: rotate(10deg); }
+            50% { transform: rotate(0); }
+            75% { transform: rotate(-10deg); }
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-love-950 via-love-900 to-love-800 min-h-screen flex items-center justify-center overflow-hidden font-love">
-    <!-- 背景粒子 -->
-    <div id="particles-js" class="absolute inset-0 z-0"></div>
-
-    <div class="relative z-10 text-center px-4 max-w-4xl">
-        <!-- 心形图标 -->
-        <div id="heart-container" class="mb-8 flex justify-center">
-            <i class="fa fa-heart text-love-500 text-6xl md:text-8xl animate-beat opacity-100 transition-opacity duration-1000"></i>
-        </div>
-        
-        <!-- 求婚文字 -->
-        <div id="proposal-text" class="opacity-0 transition-opacity duration-2000">
-            <h1 class="text-[clamp(2rem,5vw,4rem)] font-bold text-white text-shadow-lg mb-4">你愿意嫁给我吗？</h1>
-            <p id="name" class="text-[clamp(1.5rem,4vw,3rem)] font-semibold text-love-300 animate-pulse-slow">林泽洋</p>
-            
-            <!-- 新增的按钮组 -->
-            <div id="button-group" class="mt-10 flex justify-center space-x-6 opacity-0 transition-opacity duration-1000 delay-1000">
-                <button id="yes-button" class="bg-love-500 hover:bg-love-600 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
-                    <i class="fa fa-heart mr-2"></i>愿意
-                </button>
-                <button id="no-button" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transform transition-all duration-300">
-                    <i class="fa fa-times mr-2"></i>不愿意
-                </button>
-            </div>
-        </div>
-        
-        <!-- 装饰元素 -->
-        <div class="mt-8 flex justify-center space-x-4">
-            <i class="fa fa-diamond text-love-300 text-2xl animate-float" style="animation-delay: 0s;"></i>
-            <i class="fa fa-diamond text-love-400 text-2xl animate-float" style="animation-delay: 1s;"></i>
-            <i class="fa fa-diamond text-love-500 text-2xl animate-float" style="animation-delay: 2s;"></i>
-            <i class="fa fa-diamond text-love-400 text-2xl animate-float" style="animation-delay: 3s;"></i>
-            <i class="fa fa-diamond text-love-300 text-2xl animate-float" style="animation-delay: 4s;"></i>
+<body class="bg-gradient-to-br from-purple-500 to-pink-500 min-h-screen flex flex-col items-center justify-center p-4">
+    <!-- 礼物封面 -->
+    <div id="gift-box" class="text-center transition-all duration-500">
+        <div class="bg-red-500 w-64 h-64 rounded-lg flex flex-col items-center justify-center shadow-2xl animate-bounce cursor-pointer">
+  <i class="fa fa-gift text-white text-8xl mb-4"></i>
+            <h1 class="text-white text-3xl font-bold">送你一个礼物</h1>
+            <p class="text-white mt-2 text-lg">点击打开 ↓</p>
         </div>
     </div>
 
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- 中指内容（初始隐藏） -->
+    <div id="middle-finger" class="text-center opacity-0 scale-0 transition-all duration-500">
+        <div class="bg-black/80 p-10 rounded-full shadow-2xl animate-shake">
+            <i class="fa fa-hand-paper-o text-white text-9xl animate-pop" style="animation: pop 0.8s forwards;"></i>
+        </div>
+        <h2 class="text-white text-4xl font-bold mt-8 animate-pop" style="animation: pop 1s forwards;">惊喜不？😜</h2>
+    </div>
+
     <script>
-        // 配置粒子效果
-        particlesJS("particles-js", {
-            "particles": {
-                "number": {
-                    "value": 100,
-                    "density": {
-                        "enable": true,
-                        "value_area": 800
-                    }
-                },
-                "color": {
-                    "value": "#ef4444"
-                },
-                "shape": {
-                    "type": "circle",
-                    "stroke": {
-                        "width": 0,
-                        "color": "#000000"
-                    }
-                },
-                "opacity": {
-                    "value": 0.5,
-                    "random": true
-                },
-                "size": {
-                    "value": 3,
-                    "random": true
-                },
-                "line_linked": {
-                    "enable": true,
-                    "distance": 150,
-                    "color": "#ef4444",
-                    "opacity": 0.2,
-                    "width": 1
-},
-                "move": {
-                    "enable": true,
-                    "speed": 2,
-                    "direction": "none",
-                    "random": true,
-                    "straight": false,
-                    "out_mode": "out",
-                    "bounce": false
-                }
-            },
-            "interactivity": {
-                "detect_on": "canvas",
-                "events": {
-                    "onhover": {
-                        "enable": true,
-                        "mode": "grab"
-                    },
-                    "onclick": {
-                        "enable": true,
-                        "mode": "push"
-                    },
-                    "resize": true
-                },
-                "modes": {
-                    "grab": {
-                        "distance": 140,
-                        "line_linked": {
-                            "opacity": 0.5
-                        }
-                    },
-                    "push": {
-                        "particles_nb": 4
-                    }
-                }
-            },
-            "retina_detect": true
-        });
+        // 获取元素
+        const giftBox = document.getElementById('gift-box');
+        const middleFinger = document.getElementById('middle-finger');
 
-        // 动画序列
-        document.addEventListener('DOMContentLoaded', function() {
-            const heart = document.querySelector('.fa-heart');
-            const proposalText = document.getElementById('proposal-text');
-            const heartContainer = document.getElementById('heart-container');
-            const buttonGroup = document.getElementById('button-group');
-            const yesButton = document.getElementById('yes-button');
-            const noButton = document.getElementById('no-button');
+        // 点击礼物盒触发效果
+        giftBox.addEventListener('click', () => {
+            // 礼物盒消失
+            giftBox.style.opacity = '0';
+            giftBox.style.transform = 'scale(0)';
             
-            // 心形跳动一段时间后爆炸
+            // 延迟显示中指
             setTimeout(() => {
-                // 心形淡出
-                heart.style.opacity = '0';
-                heart.style.transform = 'scale(2)';
-                
-                // 创建爆炸粒子
-                createExplosionParticles();
-                
-                // 求婚文字淡入
-                setTimeout(() => {
-                    proposalText.style.opacity = '1';
-                    // 按钮组延迟淡入
-                    setTimeout(() => {
-                        buttonGroup.style.opacity = '1';
-                    }, 1000);
-                }, 1000);
-                
-            }, 3000); // 3秒后开始动画
-            
-            // "不愿意"按钮的交互效果
-            noButton.addEventListener('mouseover', function() {
-                // 获取视口尺寸
-                const viewportWidth = window.innerWidth;
-                const viewportHeight = window.innerHeight;
-                
-                // 获取按钮尺寸
-                const buttonWidth = noButton.offsetWidth;
-                const buttonHeight = noButton.offsetHeight;
-                
-                // 计算随机位置（确保按钮不会完全超出视口）
-                const randomX = Math.random() * (viewportWidth - buttonWidth);
-                const randomY = Math.random() * (viewportHeight - buttonHeight);
-                
-                // 设置按钮新位置
-                noButton.style.position = 'absolute';
-                noButton.style.left = `${randomX}px`;
-                noButton.style.top = `${randomY}px`;
-            });
-            
-            // "愿意"按钮的点击效果
-            yesButton.addEventListener('click', function() {
-                alert('太好了！我会用一生来爱你，照顾你！');
-                // 这里可以添加更多庆祝动画或跳转到新页面
-            });
+                middleFinger.style.opacity = '1';
+                middleFinger.style.transform = 'scale(1)';
+                // 播放整蛊音效（可选）
+                const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-funny-cartoon-boo-201.mp3');
+                audio.play();
+            }, 500);
         });
-
- // 创建爆炸粒子效果
-        function createExplosionParticles() {
-            const heartContainer = document.getElementById('heart-container');
-            const colors = ['#ef4444', '#f87171', '#fca5a5', '#fecaca'];
-            
-            // 创建100个粒子
-            for (let i = 0; i < 100; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('absolute', 'w-2', 'h-2', 'rounded-full');
-                
-                // 随机颜色
-                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                
-                // 随机位置（以心形为中心）
-                const size = Math.random() * 10 + 5;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                
-                // 随机方向和速度
-                const angle = Math.random() * Math.PI * 2;
-                const speed = Math.random() * 3 + 1;
-                const x = Math.cos(angle) * speed;
-                const y = Math.sin(angle) * speed;
-                
-                // 设置初始位置
-                particle.style.left = '50%';
-                particle.style.top = '50%';
-                particle.style.transform = 'translate(-50%, -50%)';
-                
-                // 添加到容器
-                heartContainer.appendChild(particle);
-                
-                // 动画
-                setTimeout(() => {
-                    particle.style.transition = 'all 1.5s ease-out';
-                    particle.style.left = `${50 + x * 30}%`;
-                    particle.style.top = `${50 + y * 30}%`;
-                    particle.style.opacity = '0';
-                    
-                    // 动画结束后移除粒子
-                    setTimeout(() => {
-                        particle.remove();
-                    }, 1500);
-                }, 10);
-            }
-        }
     </script>
 </body>
 </html>
-       
+          
