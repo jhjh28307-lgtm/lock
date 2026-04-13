@@ -1,68 +1,188 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>送你一个礼物</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <style>
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-        @keyframes pop {
-            0% { transform: scale(0); opacity: 0; }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        @keyframes shake {
-            0%, 100% { transform: rotate(0); }
-            25% { transform: rotate(10deg); }
-            50% { transform: rotate(0); }
-            75% { transform: rotate(-10deg); }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>林泽洋 专属心动</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+background:#000;color:#fff;
+font-family:微软雅黑;
+text-align:center;
+padding:15vh 20px;
+overflow-x:hidden;
+min-height:100vh;
+position:relative;
+}
+.name{
+font-size:5rem;
+background:linear-gradient(45deg,#ff4081,#ffd700);
+-webkit-background-clip:text;
+background-clip:text;
+color:transparent;
+font-weight:900;
+text-shadow:0 0 30px #ff4081,0 0 60px #ff4081;
+animation:nameFade 3s ease-in-out forwards;
+}
+.text{
+font-size:1.8rem;
+margin:30px 0 50px;
+line-height:2;
+opacity:0;
+animation:textFade 3s ease-in-out forwards 2s;
+}
+.btn{
+display:inline-block;
+width:150px;
+padding:15px 0;
+margin:0 15px 25px;
+font-size:20px;
+border:none;
+border-radius:40px;
+cursor:pointer;
+transition:all 0.3s ease;
+}
+.btn-yes{
+background:linear-gradient(45deg,#ff4081,#ff6b6b);
+color:#fff;
+box-shadow:0 0 25px rgba(255,64,129,0.9);
+}
+.btn-no{
+background:#333;
+color:#aaa;
+position:absolute;
+}
+.btn-more{
+background:#1a1a2e;
+color:#fff;
+border:2px solid #ff4081;
+box-shadow:0 0 15px rgba(255,64,129,0.6);
+}
+.hint{
+position:absolute;
+bottom:50px;
+left:50%;
+transform:translateX(-50%);
+color:rgba(255,255,255,0.7);
+font-size:1rem;
+animation:pulse 2s infinite;
+}
+@keyframes nameFade{
+from{opacity:0;transform:scale(0.8)}
+to{opacity:1;transform:scale(1.1)}
+}
+@keyframes textFade{
+from{opacity:0;transform:translateY(40px)}
+to{opacity:1;transform:translateY(0)}
+}
+@keyframes pulse{
+0%,100%{opacity:0.5}
+50%{opacity:1}
+}
+canvas{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+pointer-events:none;
+z-index:-1;
+}
+</style>
 </head>
-<body class="bg-gradient-to-br from-purple-500 to-pink-500 min-h-screen flex flex-col items-center justify-center p-4">
-    <!-- 礼物封面 -->
-    <div id="gift-box" class="text-center transition-all duration-500">
-        <div class="bg-red-500 w-64 h-64 rounded-lg flex flex-col items-center justify-center shadow-2xl animate-bounce cursor-pointer">
-  <i class="fa fa-gift text-white text-8xl mb-4"></i>
-            <h1 class="text-white text-3xl font-bold">送你一个礼物</h1>
-            <p class="text-white mt-2 text-lg">点击打开 ↓</p>
-        </div>
-    </div>
+<body>
+<canvas id="fireworksCanvas"></canvas>
+<div class="name">林泽洋</div>
+<div class="text">
+林泽洋，遇见你是我这辈子最幸运的事<br>
+我喜欢你，不止心动，更是满心欢喜
+</div><button class="btn btn-yes" onclick="yesClick()">我愿意💗</button>
+<button class="btn btn-no" id="btnNo" onclick="moveBtn()">再考虑✨</button>
+<br>
+<button class="btn btn-more" onclick="showLove()">查看99句心意</button>
+<button class="btn btn-more" onclick="showFireworks()">点亮烟花</button>
 
-    <!-- 中指内容（初始隐藏） -->
-    <div id="middle-finger" class="text-center opacity-0 scale-0 transition-all duration-500">
-        <div class="bg-black/80 p-10 rounded-full shadow-2xl animate-shake">
-            <i class="fa fa-hand-paper-o text-white text-9xl animate-pop" style="animation: pop 0.8s forwards;"></i>
-        </div>
-        <h2 class="text-white text-4xl font-bold mt-8 animate-pop" style="animation: pop 1s forwards;">惊喜不？😜</h2>
-    </div>
+<div class="hint">点击「我愿意」，解锁我的全部温柔</div>
 
-    <script>
-        // 获取元素
-        const giftBox = document.getElementById('gift-box');
-        const middleFinger = document.getElementById('middle-finger');
+<script>
+const btnNo = document.getElementById('btnNo');
+let loveIndex = 0;
+const loveTexts = [
+  "林泽洋，我的世界因你而亮",
+  "往后余生，只想和你一起",
+  "春看百花秋赏月，夏沐凉风冬听雪",
+  "我喜欢你，永远不变",
+  "遇见你，心动有了答案"
+];
 
-        // 点击礼物盒触发效果
-        giftBox.addEventListener('click', () => {
-            // 礼物盒消失
-            giftBox.style.opacity = '0';
-            giftBox.style.transform = 'scale(0)';
-            
-            // 延迟显示中指
-            setTimeout(() => {
-                middleFinger.style.opacity = '1';
-                middleFinger.style.transform = 'scale(1)';
-                // 播放整蛊音效（可选）
-                const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-funny-cartoon-boo-201.mp3');
-                audio.play();
-            }, 500);
-        });
-    </script>
+function moveBtn() {
+  const x = Math.random() * (window.innerWidth - 150);
+  const y = Math.random() * (window.innerHeight - 80);
+  btnNo.style.left = x + 'px';
+  btnNo.style.top = y + 'px';
+}
+
+function yesClick() {
+  alert('林泽洋，余生请多指教💖\n我会用一辈子，对你好');
+  document.getElementById('btnNo').style.display = 'none';
+}
+
+function showLove() {
+  loveIndex = (loveIndex + 1) % loveTexts.length;
+  alert(loveTexts[loveIndex]);
+}function showFireworks() {
+  const canvas = document.getElementById('fireworksCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  let particles = [];
+  class Particle {
+    constructor(x, y) {
+      this.x = x;
+      this.y = y;
+      this.speedX = Math.random() * 6 - 3;
+      this.speedY = Math.random() * -10 - 5;
+      this.size = Math.random() * 4 + 1;
+      this.color = `hsl(${Math.random() * 60 + 330}, 100%, 60%)`;
+      this.life = 100;
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      this.speedY += 0.2;
+      this.life--;
+    }
+    draw() {
+      ctx.fillStyle = this.color;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function createFirework(x, y) {
+    for (let i = 0; i < 100; i++) {
+      particles.push(new Particle(x, y));
+    }
+  }
+
+  function animate() {
+    ctx.fillStyle = 'rgba(0,0,0,0.1)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].update();
+      particles[i].draw();
+      if (particles[i].life <= 0) particles.splice(i, 1);
+    }
+    requestAnimationFrame(animate);
+  }
+
+  setInterval(() => {
+    createFirework(Math.random() * canvas.width, canvas.height);
+  }, 800);
+  animate();
+  alert('烟花已点亮，我的心意永不熄灭💖');
+}
+</script>
 </body>
 </html>
-          
